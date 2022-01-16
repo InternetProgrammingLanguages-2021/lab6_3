@@ -5,15 +5,17 @@ require './main'
 
 # Tests intg function
 class TestIntegral < Minitest::Test
-  def test_function1
-    assert_in_delta(0.846139, intg(0.1, 1, 2000) { |x| Math.sin(x) / x })
+  def test_function_alpha
+    assert_in_delta(0.846139, IntegralUtil.intg(0.1, 1, 2000) { |argument| Math.sin(argument) / argument })
   end
 
-  def test_function2
-    assert_in_delta(-0.376871, intg(1, 2, 2000) { |x| Math.tan(x + 1) / (x + 1) })
+  def test_function2_beta
+    assert_in_delta(-0.376871, IntegralUtil.intg(1, 2, 2000) { |argument| Math.tan(argument + 1) / (1 + argument) })
   end
 
   def test_lambda
-    assert_in_delta(-0.376871, intg(1, 2, 2000, ->(x) do Math.tan(x + 1) / (x + 1) end))
+    assert_in_delta(-0.376871, IntegralUtil.intg(1, 2, 2000, &lambda do |argument|
+      Math.tan(argument + 1) / (1 + argument)
+    end))
   end
 end
